@@ -76,17 +76,22 @@ fit_ebmf_to_YY <- function (dat, fl, extrapolate = TRUE, warmstart = TRUE,
 #' 
 fit_ebmf_to_Y <- function(Y, fit.cov, corr_thres, maxiter) {
     
+  ### save scaling from fit to YYt
+  D <- ldf(fit.cov, type = 'i')$D
+  
   ### scale GEP membership estimates to 0-1 scale, and calculate
   ### Pearson correlations between L and L-tilde
   k.order <- order(fit.cov$pve, decreasing = TRUE)
   fit.L <- fit.cov$L_pm[, k.order]
   fit.L <- t(t(fit.L)/apply(fit.L, 2, max))
   corr <- diag(cor(fit.cov$L_pm[, k.order], fit.cov$F_pm[, k.order]))
+  D <- D[k.order]
   
   ### remove GEPs with essentially zero memberships and 
   ### GEPs that are not concordant between L and L-tilde
   keep.idx <- apply(fit.L, 2, sd) > 1e-3 & corr > corr_thres
   fit.L <- fit.L[, keep.idx]
+  D <- D[keep.idx]
   
   ### estimate GEP signatures by fitting EB-SNMF to gene expression
   ### data matrix with fixed L estimated from covariance decomposition
@@ -137,5 +142,5 @@ fit_ebmf_to_Y <- function(Y, fit.cov, corr_thres, maxiter) {
   colnames(F.lfc) <- colnames(L.pm)
   colnames(F.z) <- colnames(L.pm)
   colnames(F.lfsr) <- colnames(L.pm)
-  return(list(L = L.pm, F = list(lfc = F.lfc, z_score = F.z, lfsr = F.lfsr)))
+  return(list(L = L.pm, F = list(lfc = F.lfc, z_score = F.z, lfsr = F.lfsr), D = D))
 }
