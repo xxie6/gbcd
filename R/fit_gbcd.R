@@ -44,6 +44,10 @@
 #' @param verbose Integer specifying whether and how to display
 #'   progress updates, as described in flashier.
 #'   
+#' @param ldf_type The type of diagonal scaling matrix D to use when fitting
+#'   the model Y = LDF' + E. Use "i" to set D to the identity matrix;
+#'   "cov" to set D such that LD^2L' is approximately YY'/p.
+#'   
 #' @return A list including the following elements:
 #' 
 #' \item{L}{cell x GEP matrix containing the posterior estimates of
@@ -51,6 +55,9 @@
 #' 
 #' \item{F}{List containing the posterior summaries of the GEP
 #'   signature matrix F.}
+#'   
+#' \item{D}{A vector containing the diagonal entries of the 
+#'   diagonal scaling matrix D.}
 #'
 #' @examples
 #' # Please see the vignettes for examples.
@@ -70,7 +77,8 @@
 #' 
 fit_gbcd <- function (Y, Kmax, prior = ebnm::ebnm_generalized_binary, 
                       maxiter1 = 500, maxiter2 = 200, maxiter3 = 500,
-                      control = list(), verbose = 1) {
+                      control = list(), verbose = 1, 
+                      ldf_type = 'i') {
 
   control <- modifyList(fit_gbcd_control_default(), control, keep.null = TRUE)
   extrapolate <- control$extrapolate
@@ -141,7 +149,7 @@ fit_gbcd <- function (Y, Kmax, prior = ebnm::ebnm_generalized_binary,
   ### above
   print("Estimate GEP signature matrix F...")
   start_time = proc.time()
-  res <- fit_ebmf_to_Y(Y, fit.cov, corr_thres, maxiter3)
+  res <- fit_ebmf_to_Y(Y, fit.cov, corr_thres, maxiter3, ldf_type)
   runtime = proc.time() - start_time
   print(runtime)
 
