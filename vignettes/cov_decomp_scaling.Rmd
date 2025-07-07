@@ -102,7 +102,9 @@ sim_4pops <- function(args) {
   YYt <- (1/p)*tcrossprod(Y)
   return(list(Y = Y, YYt = YYt, LL = LL, FF = FF, K = ncol(LL)))
 }
-sim_args = list(pop_sizes = rep(40, 4), n_genes = 1000, branch_sds = c(2,2,2,2,2,2,2), indiv_sd = 1, seed = 1)
+sim_args = list(pop_sizes = rep(40, 4), n_genes = 1000,
+                branch_sds = c(2,2,2,2,2,2,2),
+				indiv_sd = 1, seed = 1)
 sim_data <- sim_4pops(sim_args)
 ```
 
@@ -179,14 +181,14 @@ A few notes on the other arguments of this `fit_gbcd` call:
 This is a structure plot of the scaled loadings estimate, $\tilde{L} =
 LD$:
 
-```{r plot-cov-loadings, fig.height=3, fig.width=3}
+```{r plot-cov-loadings, fig.height=2, fig.width=4}
 pop_vec <- rep(c("A","B","C","D"), times = sim_args$pop_sizes)
 L <- cov_scaling_gbcd_fit$L %*% diag(cov_scaling_gbcd_fit$D)
 k <- ncol(L)
 colnames(L) <- paste0("k",1:k)
-p1 <- structure_plot(L,grouping = pop_vec,
-                     gap = 16,verbose = FALSE) +
-  labs(y = "membership",title = "GBCD - covariance decomposition scaling")
+p1 <- structure_plot(L,grouping = pop_vec,gap = 16,verbose = FALSE) +
+  labs(y = "membership",
+       title = "GBCD - covariance decomposition scaling")
 p1
 ```
 
@@ -219,10 +221,10 @@ i_scaling_gbcd_fit <- fit_gbcd(sim_data$Y, Kmax = 7, ebnm_generalized_binary,
 
 ## Results
 
-This is a structure plot of the loadings estimate, $L$ (Recall that
+This is a structure plot of the loadings estimate, $L$ (recall that
 for `ldf_type = "i"`, $D$ is set to the identity matrix):
 
-```{r plot-i-loadings, fig.height=3, fig.width=3}
+```{r plot-i-loadings, fig.height=2, fig.width=4}
 L <- i_scaling_gbcd_fit$L
 k <- ncol(L)
 colnames(L) <- paste0("k",1:k)
