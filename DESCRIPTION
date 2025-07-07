@@ -2,8 +2,8 @@ Type: Package
 Package: gbcd
 Encoding: UTF-8
 Title: Generalized Binary Covariance Decomposition
-Date: 2025-07-07
-Version: 0.2-12
+Date: 2025-07-08
+Version: 0.2-14
 Authors@R: c(person("Yusha","Liu",role=c("aut","cre"),
                     email="yushaliu@unc.edu"),
              person("Peter","Carbonetto",role="aut"),

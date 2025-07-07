@@ -14,7 +14,7 @@ fit_gbcd(
   maxiter3 = 500,
   control = list(),
   verbose = 1,
-  ldf_type = "i"
+  ldf_type = c("i", "cov")
 )
 
 fit_gbcd_control_default()
@@ -59,9 +59,10 @@ only keep columns \eqn{l_k} whose Pearson correlation with
 \item{verbose}{Integer specifying whether and how to display
 progress updates, as described in flashier.}
 
-\item{ldf_type}{The type of diagonal scaling matrix D to use when fitting
-the model Y = LDF' + E. Use "i" to set D to the identity matrix;
-"cov" to set D such that LD^2L' is approximately YY'/p.}
+\item{ldf_type}{The type of diagonal scaling matrix D to use when
+fitting the model \eqn{Y = LDF' + E}. Use \code{ldf_type = "i"}
+to set D to the identity matrix; \code{ldf_type = "cov"} to set
+D such that \eqn{LD^2L'} is approximately \eqn{YY'/p}.}
 }
 \value{
 A list including the following elements:
