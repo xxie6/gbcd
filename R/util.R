@@ -74,8 +74,8 @@ fit_ebmf_to_YY <- function (dat, fl, extrapolate = TRUE, warmstart = TRUE,
 #' @importFrom flashier flash_factors_fix
 #' @importFrom flashier flash_backfit
 #' 
-fit_ebmf_to_Y <- function(Y, fit.cov, corr_thres, maxiter) {
-    
+fit_ebmf_to_Y <- function(Y, fit.cov, corr_thres, maxiter, ldf_type = c("i","cov")) {
+  
   ### scale GEP membership estimates to 0-1 scale, and calculate
   ### Pearson correlations between L and L-tilde
   k.order <- order(fit.cov$pve, decreasing = TRUE)
@@ -87,6 +87,23 @@ fit_ebmf_to_Y <- function(Y, fit.cov, corr_thres, maxiter) {
   ### GEPs that are not concordant between L and L-tilde
   keep.idx <- apply(fit.L, 2, sd) > 1e-3 & corr > corr_thres
   fit.L <- fit.L[, keep.idx]
+  
+  ### Assign D
+  if (ldf_type == 'cov'){
+    ### save scaling from fit to YYt
+    D <- sqrt(ldf(fit.cov, type = 'i')$D)
+    D <- D[k.order]
+    D <- D[keep.idx]
+  } else if (ldf_type == 'i'){
+    D <- rep(1, ncol(fit.L))
+  } else {
+    stop('Invalid input for ldf_type')
+  }
+  
+  ### Scale L for EB-SNMF fit to Y
+  if (ldf_type == 'cov'){
+    fit.L <- fit.L %*% diag(D)
+  }
   
   ### estimate GEP signatures by fitting EB-SNMF to gene expression
   ### data matrix with fixed L estimated from covariance decomposition
@@ -130,6 +147,9 @@ fit_ebmf_to_Y <- function(Y, fit.cov, corr_thres, maxiter) {
   ### whose L and Ltilde from covariance decomposition are highly
   ### concordant 
   L.pm <- fit.snmf$L_pm
+  if (ldf_type == 'cov'){
+    L.pm <- t(t(L.pm)/apply(L.pm, 2, max))
+  }
   F.lfc <- fit.snmf$F_pm/log(2)
   F.z <- F.z.ash
   F.lfsr <- F.lfsr.ash
@@ -137,5 +157,5 @@ fit_ebmf_to_Y <- function(Y, fit.cov, corr_thres, maxiter) {
   colnames(F.lfc) <- colnames(L.pm)
   colnames(F.z) <- colnames(L.pm)
   colnames(F.lfsr) <- colnames(L.pm)
-  return(list(L = L.pm, F = list(lfc = F.lfc, z_score = F.z, lfsr = F.lfsr)))
+  return(list(L = L.pm, F = list(lfc = F.lfc, z_score = F.z, lfsr = F.lfsr), D = D))
 }
