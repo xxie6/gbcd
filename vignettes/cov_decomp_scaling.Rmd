@@ -135,7 +135,7 @@ pheatmap(sim_data$LL, cluster_rows = FALSE,
 
 Now, we use GBCD to obtain a covariance matrix decomposition.
 
-## The `ldf_type` Argument
+## The ldf_type Argument
 
 To obtain a covariance decomposition, we need to make use of the
 `ldf_type` argument.
@@ -149,7 +149,7 @@ has infinity norm equal to 1.
 
 The `ldf_type` argument determines what diagonal scaling matrix $D$ is
 used when fitting $Y \approx LDF'$. The default setting is `ldf_type =
-i`, which sets $D$ to the identity matrix, and fits $L$ and $F$
+"i"`, which sets $D$ to the identity matrix, and fits $L$ and $F$
 accordingly. An alternative setting is `ldf_type = "cov"`, which
 chooses $D$ such that $LD^2L' \approx \frac{1}{J}YY'$. To get a
 covariance matrix decomposition, we set `ldf_type = "cov"`.
@@ -187,14 +187,15 @@ L <- cov_scaling_gbcd_fit$L %*% diag(cov_scaling_gbcd_fit$D)
 k <- ncol(L)
 colnames(L) <- paste0("k",1:k)
 p1 <- structure_plot(L,grouping = pop_vec,gap = 16,verbose = FALSE) +
-  labs(y = "membership",
+  labs(y     = "membership",
+       color = "factor",
        title = "GBCD - covariance decomposition scaling")
 p1
 ```
 
 By computing $LD^2L'$, we obtain an estimate for the observed scaled
 Gram matrix. We plot the off-diagonal entries of the fitted Gram
-matrix against the observed Gram matrix, and see that the entries
+matrix against the (true) scaled Gram matrix, and see that the entries
 closely match up.
 
 ```{r plot-cov-scale-fit-vs-obs, fig.height=3, fig.width=3}
@@ -204,8 +205,8 @@ ggplot(data = NULL, aes(x = as.vector(sim_data$YYt[off_diag_idx]),
                         y = as.vector(Gram_est[off_diag_idx]))) +
   geom_point() +
   geom_abline(slope = 1, intercept = 0, color = "red") +
-  xlab("Observed Gram Matrix Entries") +
-  ylab("Fitted Gram Matrix Entries") +
+  xlab("True Gram Matrix") +
+  ylab("Fitted Gram Matrix") +
   theme_cowplot(font_size = 12)
 ```
 
@@ -230,7 +231,9 @@ k <- ncol(L)
 colnames(L) <- paste0("k",1:k)
 p2 <- structure_plot(L,grouping = pop_vec,
                      gap = 16,verbose = FALSE) +
-  labs(y = "membership",title = "GBCD - default scaling")
+  labs(y = "membership",
+       color = "factor",
+       title = "GBCD - default scaling")
 p2
 ```
 
@@ -250,10 +253,11 @@ ggplot(data = NULL, aes(x = as.vector(sim_data$YYt[off_diag_idx]),
                         y = as.vector(LLt[off_diag_idx]))) +
   geom_point() +
   geom_abline(slope = 1, intercept = 0, color = "red") +
-  xlab("Observed Gram Matrix Entries") +
-  ylab("LL\' Entries") +
+  xlab("True Gram Matrix") +
+  ylab("LL\'") +
   xlim(0,14) +
-  ylim(0,14)
+  ylim(0,14) +
+  theme_cowplot(font_size = 12)
 ```
 
 # Session Info
