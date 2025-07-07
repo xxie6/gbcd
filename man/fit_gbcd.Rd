@@ -13,7 +13,8 @@ fit_gbcd(
   maxiter2 = 200,
   maxiter3 = 500,
   control = list(),
-  verbose = 1
+  verbose = 1,
+  ldf_type = "i"
 )
 
 fit_gbcd_control_default()
@@ -57,6 +58,10 @@ only keep columns \eqn{l_k} whose Pearson correlation with
 
 \item{verbose}{Integer specifying whether and how to display
 progress updates, as described in flashier.}
+
+\item{ldf_type}{The type of diagonal scaling matrix D to use when fitting
+the model Y = LDF' + E. Use "i" to set D to the identity matrix;
+"cov" to set D such that LD^2L' is approximately YY'/p.}
 }
 \value{
 A list including the following elements:
@@ -66,6 +71,9 @@ the GEP membership matrix L.}
 
 \item{F}{List containing the posterior summaries of the GEP
   signature matrix F.}
+  
+\item{D}{A vector containing the diagonal entries of the 
+  diagonal scaling matrix D.}
 }
 \description{
 Fit a generalized binary covariance decomposition (GBCD)
