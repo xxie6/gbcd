@@ -204,7 +204,7 @@ off_diag_idx <- row(sim_data$YYt) != col(sim_data$YYt)
 ggplot(data = NULL, aes(x = as.vector(sim_data$YYt[off_diag_idx]),
                         y = as.vector(Gram_est[off_diag_idx]))) +
   geom_point() +
-  geom_abline(slope = 1, intercept = 0, color = "red") +
+  geom_abline(slope = 1, intercept = 0, color = "red", linetype = "dotted") +
   xlab("True Gram Matrix") +
   ylab("Fitted Gram Matrix") +
   theme_cowplot(font_size = 12)
@@ -252,7 +252,7 @@ LLt <- tcrossprod(i_scaling_gbcd_fit$L)
 ggplot(data = NULL, aes(x = as.vector(sim_data$YYt[off_diag_idx]),
                         y = as.vector(LLt[off_diag_idx]))) +
   geom_point() +
-  geom_abline(slope = 1, intercept = 0, color = "red") +
+  geom_abline(slope = 1, intercept = 0, color = "red", linetype = "dotted") +
   xlab("True Gram Matrix") +
   ylab("LL\'") +
   xlim(0,14) +
