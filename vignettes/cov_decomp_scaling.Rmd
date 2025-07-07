@@ -108,7 +108,7 @@ sim_data <- sim_4pops(sim_args)
 
 This is a heatmap of the scaled Gram matrix, $\frac{1}{p}YY'$:
 
-```{r plot-obs-Gram}
+```{r plot-obs-Gram, fig.height=3, fig.width=3}
 cols <- colorRampPalette(c("gray96", "red"))(50)
 brks <- seq(0, max(abs(sim_data$YYt)), length.out = 50)
 pheatmap(sim_data$YYt, cluster_rows = FALSE,
@@ -118,9 +118,9 @@ pheatmap(sim_data$YYt, cluster_rows = FALSE,
 ```
 
 This is a heatmap of the true loadings matrix. Note this matrix is
-scaled such that each column has infinity norm equal to 1.:
+scaled such that each column has infinity norm equal to 1:
 
-```{r plot-loadings}
+```{r plot-loadings, fig.height=2, fig.width=3}
 cols <- colorRampPalette(c("gray96", "red"))(50)
 brks <- seq(0, max(abs(sim_data$LL)), length.out = 50)
 pheatmap(sim_data$LL, cluster_rows = FALSE,
@@ -179,7 +179,7 @@ A few notes on the other arguments of this `fit_gbcd` call:
 This is a structure plot of the scaled loadings estimate, $\tilde{L} =
 LD$:
 
-```{r plot-cov-loadings}
+```{r plot-cov-loadings, fig.height=3, fig.width=3}
 pop_vec <- rep(c("A","B","C","D"), times = sim_args$pop_sizes)
 L <- cov_scaling_gbcd_fit$L %*% diag(cov_scaling_gbcd_fit$D)
 k <- ncol(L)
@@ -195,7 +195,7 @@ Gram matrix. We plot the off-diagonal entries of the fitted Gram
 matrix against the observed Gram matrix, and see that the entries
 closely match up.
 
-```{r plot-cov-scale-fit-vs-obs}
+```{r plot-cov-scale-fit-vs-obs, fig.height=3, fig.width=3}
 Gram_est <- tcrossprod(cov_scaling_gbcd_fit$L %*% diag(cov_scaling_gbcd_fit$D))
 off_diag_idx <- row(sim_data$YYt) != col(sim_data$YYt)
 ggplot(data = NULL, aes(x = as.vector(sim_data$YYt[off_diag_idx]),
@@ -203,7 +203,8 @@ ggplot(data = NULL, aes(x = as.vector(sim_data$YYt[off_diag_idx]),
   geom_point() +
   geom_abline(slope = 1, intercept = 0, color = "red") +
   xlab("Observed Gram Matrix Entries") +
-  ylab("Fitted Gram Matrix Entries")
+  ylab("Fitted Gram Matrix Entries") +
+  theme_cowplot(font_size = 12)
 ```
 
 # Default GBCD
@@ -221,7 +222,7 @@ i_scaling_gbcd_fit <- fit_gbcd(sim_data$Y, Kmax = 7, ebnm_generalized_binary,
 This is a structure plot of the loadings estimate, $L$ (Recall that
 for `ldf_type = "i"`, $D$ is set to the identity matrix):
 
-```{r plot-i-loadings}
+```{r plot-i-loadings, fig.height=3, fig.width=3}
 L <- i_scaling_gbcd_fit$L
 k <- ncol(L)
 colnames(L) <- paste0("k",1:k)
@@ -241,7 +242,7 @@ Here, we plot the off-diagonal entries of $LL'$ against the
 off-diagonal entries of the observed Gram matrix. We see that the
 entries are not of the same scale:
 
-```{r plot-llt-vs-obs}
+```{r plot-llt-vs-obs, fig.height=3, fig.width=3}
 LLt <- tcrossprod(i_scaling_gbcd_fit$L)
 ggplot(data = NULL, aes(x = as.vector(sim_data$YYt[off_diag_idx]),
                         y = as.vector(LLt[off_diag_idx]))) +
