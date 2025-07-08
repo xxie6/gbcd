@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gbcd</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2-12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2-14</span>
       </span>
     </div>
 
@@ -164,7 +164,9 @@ code written by Jason Willwerscheid for <a href="https://stephenslab.uchicago.ed
 <span>  <span class="va">YYt</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">p</span><span class="op">)</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/matrix-products.html" class="external-link">tcrossprod</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="va">Y</span>, YYt <span class="op">=</span> <span class="va">YYt</span>, LL <span class="op">=</span> <span class="va">LL</span>, FF <span class="op">=</span> <span class="va">FF</span>, K <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">LL</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
-<span><span class="va">sim_args</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pop_sizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">4</span><span class="op">)</span>, n_genes <span class="op">=</span> <span class="fl">1000</span>, branch_sds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span>, indiv_sd <span class="op">=</span> <span class="fl">1</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">sim_args</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pop_sizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">4</span><span class="op">)</span>, n_genes <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>                branch_sds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span>,</span>
+<span>                indiv_sd <span class="op">=</span> <span class="fl">1</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">sim_data</span> <span class="op">&lt;-</span> <span class="fu">sim_4pops</span><span class="op">(</span><span class="va">sim_args</span><span class="op">)</span></span></code></pre></div>
 <p>This is a heatmap of the scaled Gram matrix, <span class="math inline">\(\frac{1}{p}YY'\)</span>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -191,7 +193,7 @@ scaled such that each column has infinity norm equal to 1:</p>
 </h2>
 <p>Now, we use GBCD to obtain a covariance matrix decomposition.</p>
 <div class="section level3">
-<h3 id="the-ldf_type-argument">The <code>ldf_type</code> Argument<a class="anchor" aria-label="anchor" href="#the-ldf_type-argument"></a>
+<h3 id="the-ldf_type-argument">The ldf_type Argument<a class="anchor" aria-label="anchor" href="#the-ldf_type-argument"></a>
 </h3>
 <p>To obtain a covariance decomposition, we need to make use of the
 <code>ldf_type</code> argument.</p>
@@ -202,7 +204,7 @@ Therefore, an alternative way of framing the problem is fitting <span class="mat
 infinity norm equal to 1.</p>
 <p>The <code>ldf_type</code> argument determines what diagonal scaling
 matrix <span class="math inline">\(D\)</span> is used when fitting <span class="math inline">\(Y \approx LDF'\)</span>. The default setting
-is <code>ldf_type = i</code>, which sets <span class="math inline">\(D\)</span> to the identity matrix, and fits <span class="math inline">\(L\)</span> and <span class="math inline">\(F\)</span> accordingly. An alternative setting is
+is <code>ldf_type = "i"</code>, which sets <span class="math inline">\(D\)</span> to the identity matrix, and fits <span class="math inline">\(L\)</span> and <span class="math inline">\(F\)</span> accordingly. An alternative setting is
 <code>ldf_type = "cov"</code>, which chooses <span class="math inline">\(D\)</span> such that <span class="math inline">\(LD^2L' \approx \frac{1}{J}YY'\)</span>. To
 get a covariance matrix decomposition, we set
 <code>ldf_type = "cov"</code>.</p>
@@ -216,7 +218,7 @@ get a covariance matrix decomposition, we set
 <span>    prior <span class="op">=</span> <span class="va">ebnm_generalized_binary</span>, ldf_type <span class="op">=</span> <span class="st">"cov"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "Form cell by cell covariance matrix..."</span></span>
 <span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   0.007   0.001   0.007 </span></span>
+<span><span class="co">##   0.007   0.000   0.007 </span></span>
 <span><span class="co">## [1] "Initialize GEP membership matrix L..."</span></span>
 <span><span class="co">## Adding factor 1 to flash object...</span></span>
 <span><span class="co">## Wrapping up...</span></span>
@@ -253,7 +255,7 @@ get a covariance matrix decomposition, we set
 <span><span class="co">## Wrapping up...</span></span>
 <span><span class="co">## Done.</span></span>
 <span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   3.007   0.109   3.118 </span></span>
+<span><span class="co">##   3.001   0.114   3.117 </span></span>
 <span><span class="co">## [1] "Estimate GEP membership matrix L..."</span></span>
 <span><span class="co">## Backfitting 7 factors (tolerance: 3.81e-04)...</span></span>
 <span><span class="co">##   Difference between iterations is within 1.0e+04...</span></span>
@@ -279,7 +281,7 @@ get a covariance matrix decomposition, we set
 <span><span class="co">## Wrapping up...</span></span>
 <span><span class="co">## Done.</span></span>
 <span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##  10.353   0.227  10.585 </span></span>
+<span><span class="co">##  10.350   0.229  10.578 </span></span>
 <span><span class="co">## [1] "Estimate GEP signature matrix F..."</span></span>
 <span><span class="co">## Backfitting 7 factors (tolerance: 2.38e-03)...</span></span>
 <span><span class="co">##   Difference between iterations is within 1.0e+00...</span></span>
@@ -287,7 +289,7 @@ get a covariance matrix decomposition, we set
 <span><span class="co">## Wrapping up...</span></span>
 <span><span class="co">## Done.</span></span>
 <span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##  16.225   0.564  16.797</span></span></code></pre>
+<span><span class="co">##  16.173   0.634  16.814</span></span></code></pre>
 <p>A few notes on the other arguments of this <code>fit_gbcd</code>
 call:</p>
 <ul>
@@ -312,30 +314,32 @@ LD\)</span>:</p>
 <span><span class="va">L</span> <span class="op">&lt;-</span> <span class="va">cov_scaling_gbcd_fit</span><span class="op">$</span><span class="va">L</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">cov_scaling_gbcd_fit</span><span class="op">$</span><span class="va">D</span><span class="op">)</span></span>
 <span><span class="va">k</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">L</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">L</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"k"</span>,<span class="fl">1</span><span class="op">:</span><span class="va">k</span><span class="op">)</span></span>
-<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stephenslab.github.io/fastTopics/reference/structure_plot.html" class="external-link">structure_plot</a></span><span class="op">(</span><span class="va">L</span>,grouping <span class="op">=</span> <span class="va">pop_vec</span>,</span>
-<span>                     gap <span class="op">=</span> <span class="fl">16</span>,verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"membership"</span>,title <span class="op">=</span> <span class="st">"GBCD - covariance decomposition scaling"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stephenslab.github.io/fastTopics/reference/structure_plot.html" class="external-link">structure_plot</a></span><span class="op">(</span><span class="va">L</span>,grouping <span class="op">=</span> <span class="va">pop_vec</span>,gap <span class="op">=</span> <span class="fl">16</span>,verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y     <span class="op">=</span> <span class="st">"membership"</span>,</span>
+<span>       color <span class="op">=</span> <span class="st">"factor"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"GBCD - covariance decomposition scaling"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Running tsne on 40 x 7 matrix.</span></span>
 <span><span class="co">## Running tsne on 40 x 7 matrix.</span></span>
 <span><span class="co">## Running tsne on 40 x 7 matrix.</span></span>
 <span><span class="co">## Running tsne on 40 x 7 matrix.</span></span></code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span></span></code></pre></div>
-<p><img src="cov_decomp_scaling_files/figure-html/plot-cov-loadings-1.png" width="700"></p>
+<p><img src="cov_decomp_scaling_files/figure-html/plot-cov-loadings-1.png" width="384"></p>
 <p>By computing <span class="math inline">\(LD^2L'\)</span>, we
 obtain an estimate for the observed scaled Gram matrix. We plot the
-off-diagonal entries of the fitted Gram matrix against the observed Gram
-matrix, and see that the entries closely match up.</p>
+off-diagonal entries of the fitted Gram matrix against the (true) scaled
+Gram matrix, and see that the entries closely match up.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Gram_est</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/matrix-products.html" class="external-link">tcrossprod</a></span><span class="op">(</span><span class="va">cov_scaling_gbcd_fit</span><span class="op">$</span><span class="va">L</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">cov_scaling_gbcd_fit</span><span class="op">$</span><span class="va">D</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">off_diag_idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/row.html" class="external-link">row</a></span><span class="op">(</span><span class="va">sim_data</span><span class="op">$</span><span class="va">YYt</span><span class="op">)</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/col.html" class="external-link">col</a></span><span class="op">(</span><span class="va">sim_data</span><span class="op">$</span><span class="va">YYt</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="cn">NULL</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">sim_data</span><span class="op">$</span><span class="va">YYt</span><span class="op">[</span><span class="va">off_diag_idx</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>                        y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">Gram_est</span><span class="op">[</span><span class="va">off_diag_idx</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_abline</a></span><span class="op">(</span>slope <span class="op">=</span> <span class="fl">1</span>, intercept <span class="op">=</span> <span class="fl">0</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Observed Gram Matrix Entries"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Fitted Gram Matrix Entries"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cov_decomp_scaling_files/figure-html/plot-cov-scale-fit-vs-obs-1.png" width="700"></p>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_abline</a></span><span class="op">(</span>slope <span class="op">=</span> <span class="fl">1</span>, intercept <span class="op">=</span> <span class="fl">0</span>, color <span class="op">=</span> <span class="st">"red"</span>,linetype <span class="op">=</span> <span class="st">"dotted"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"True Gram Matrix"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Fitted Gram Matrix"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://wilkelab.org/cowplot/reference/theme_cowplot.html" class="external-link">theme_cowplot</a></span><span class="op">(</span>font_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></code></pre></div>
+<p><img src="cov_decomp_scaling_files/figure-html/plot-cov-scale-fit-vs-obs-1.png" width="288"></p>
 </div>
 </div>
 <div class="section level2">
@@ -348,7 +352,7 @@ matrix, and see that the entries closely match up.</p>
 <span>                               ldf_type <span class="op">=</span> <span class="st">"i"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "Form cell by cell covariance matrix..."</span></span>
 <span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   0.005   0.000   0.006 </span></span>
+<span><span class="co">##   0.006   0.000   0.005 </span></span>
 <span><span class="co">## [1] "Initialize GEP membership matrix L..."</span></span>
 <span><span class="co">## Adding factor 1 to flash object...</span></span>
 <span><span class="co">## Wrapping up...</span></span>
@@ -385,7 +389,7 @@ matrix, and see that the entries closely match up.</p>
 <span><span class="co">## Wrapping up...</span></span>
 <span><span class="co">## Done.</span></span>
 <span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   3.126   0.085   3.218 </span></span>
+<span><span class="co">##   3.087   0.067   3.153 </span></span>
 <span><span class="co">## [1] "Estimate GEP membership matrix L..."</span></span>
 <span><span class="co">## Backfitting 7 factors (tolerance: 3.81e-04)...</span></span>
 <span><span class="co">##   Difference between iterations is within 1.0e+04...</span></span>
@@ -411,7 +415,7 @@ matrix, and see that the entries closely match up.</p>
 <span><span class="co">## Wrapping up...</span></span>
 <span><span class="co">## Done.</span></span>
 <span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##  10.585   0.203  10.797 </span></span>
+<span><span class="co">##  10.445   0.204  10.650 </span></span>
 <span><span class="co">## [1] "Estimate GEP signature matrix F..."</span></span>
 <span><span class="co">## Backfitting 7 factors (tolerance: 2.38e-03)...</span></span>
 <span><span class="co">##   Difference between iterations is within 1.0e+00...</span></span>
@@ -419,11 +423,11 @@ matrix, and see that the entries closely match up.</p>
 <span><span class="co">## Wrapping up...</span></span>
 <span><span class="co">## Done.</span></span>
 <span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##  16.510   0.424  16.948</span></span></code></pre>
+<span><span class="co">##  16.354   0.465  16.972</span></span></code></pre>
 <div class="section level3">
 <h3 id="results-1">Results<a class="anchor" aria-label="anchor" href="#results-1"></a>
 </h3>
-<p>This is a structure plot of the loadings estimate, <span class="math inline">\(L\)</span> (Recall that for
+<p>This is a structure plot of the loadings estimate, <span class="math inline">\(L\)</span> (recall that for
 <code>ldf_type = "i"</code>, <span class="math inline">\(D\)</span> is
 set to the identity matrix):</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -432,14 +436,16 @@ set to the identity matrix):</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">L</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"k"</span>,<span class="fl">1</span><span class="op">:</span><span class="va">k</span><span class="op">)</span></span>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stephenslab.github.io/fastTopics/reference/structure_plot.html" class="external-link">structure_plot</a></span><span class="op">(</span><span class="va">L</span>,grouping <span class="op">=</span> <span class="va">pop_vec</span>,</span>
 <span>                     gap <span class="op">=</span> <span class="fl">16</span>,verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"membership"</span>,title <span class="op">=</span> <span class="st">"GBCD - default scaling"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"membership"</span>,</span>
+<span>       color <span class="op">=</span> <span class="st">"factor"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"GBCD - default scaling"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Running tsne on 40 x 7 matrix.</span></span>
 <span><span class="co">## Running tsne on 40 x 7 matrix.</span></span>
 <span><span class="co">## Running tsne on 40 x 7 matrix.</span></span>
 <span><span class="co">## Running tsne on 40 x 7 matrix.</span></span></code></pre>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p2</span></span></code></pre></div>
-<p><img src="cov_decomp_scaling_files/figure-html/plot-i-loadings-1.png" width="700"></p>
+<p><img src="cov_decomp_scaling_files/figure-html/plot-i-loadings-1.png" width="384"></p>
 <p>With the default setting, we see that each component has a maximum
 loading value of 1. This can be helpful for interpreting the entries of
 the corresponding <span class="math inline">\(F\)</span> matrix.
@@ -454,12 +460,13 @@ scale:</p>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="cn">NULL</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">sim_data</span><span class="op">$</span><span class="va">YYt</span><span class="op">[</span><span class="va">off_diag_idx</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>                        y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">LLt</span><span class="op">[</span><span class="va">off_diag_idx</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_abline</a></span><span class="op">(</span>slope <span class="op">=</span> <span class="fl">1</span>, intercept <span class="op">=</span> <span class="fl">0</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Observed Gram Matrix Entries"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"LL\' Entries"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_abline</a></span><span class="op">(</span>slope <span class="op">=</span> <span class="fl">1</span>, intercept <span class="op">=</span> <span class="fl">0</span>, color <span class="op">=</span> <span class="st">"red"</span>,linetype <span class="op">=</span> <span class="st">"dotted"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"True Gram Matrix"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"LL\'"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">xlim</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">14</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">ylim</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">14</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cov_decomp_scaling_files/figure-html/plot-llt-vs-obs-1.png" width="700"></p>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">ylim</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">14</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://wilkelab.org/cowplot/reference/theme_cowplot.html" class="external-link">theme_cowplot</a></span><span class="op">(</span>font_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></code></pre></div>
+<p><img src="cov_decomp_scaling_files/figure-html/plot-llt-vs-obs-1.png" width="288"></p>
 </div>
 </div>
 <div class="section level2">
