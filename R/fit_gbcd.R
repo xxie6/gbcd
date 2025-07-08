@@ -45,9 +45,13 @@
 #'   progress updates, as described in flashier.
 #'   
 #' @param ldf_type The type of diagonal scaling matrix D to use when
-#'   fitting the model \eqn{Y = LDF' + E}. Use \code{ldf_type = "i"}
+#'   fitting the model \eqn{Y = LDF' + E}. Use \code{ldf_type = "identity"}
 #'   to set D to the identity matrix; \code{ldf_type = "cov"} to set
-#'   D such that \eqn{LD^2L'} is approximately \eqn{YY'/p}.
+#'   D such that \eqn{LD^2L'} is approximately \eqn{YY'/p} (L 
+#'   is scaled such that the infinity norm of each column is 1, 
+#'   i.e. \code{apply(L,2,max) = rep(1,K)}). Note that setting
+#'   \code{ldf_type = "cov"} does not affect the approximation of \eqn{Y}; 
+#'   it still holds true that \eqn{LDF'} is approximately \eqn{Y}. 
 #'   
 #' @return A list including the following elements:
 #' 
