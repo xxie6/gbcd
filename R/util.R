@@ -74,7 +74,8 @@ fit_ebmf_to_YY <- function (dat, fl, extrapolate = TRUE, warmstart = TRUE,
 #' @importFrom flashier flash_factors_fix
 #' @importFrom flashier flash_backfit
 #' 
-fit_ebmf_to_Y <- function(Y, fit.cov, corr_thres, maxiter, ldf_type = c("i","cov")) {
+fit_ebmf_to_Y <- function(Y, fit.cov, corr_thres, maxiter, 
+                          ldf_type = c("i","cov")) {
   
   ### scale GEP membership estimates to 0-1 scale, and calculate
   ### Pearson correlations between L and L-tilde
@@ -89,19 +90,20 @@ fit_ebmf_to_Y <- function(Y, fit.cov, corr_thres, maxiter, ldf_type = c("i","cov
   fit.L <- fit.L[, keep.idx]
   
   ### Assign D
-  if (ldf_type == 'cov'){
+  if (ldf_type == "cov") {
+
     ### save scaling from fit to YYt
-    D <- sqrt(ldf(fit.cov, type = 'i')$D)
+    D <- sqrt(ldf(fit.cov, type = "i")$D)
     D <- D[k.order]
     D <- D[keep.idx]
-  } else if (ldf_type == 'i'){
+  } else if (ldf_type == "i"){
     D <- rep(1, ncol(fit.L))
   } else {
-    stop('Invalid input for ldf_type')
+    stop("Invalid input for ldf_type")
   }
   
   ### Scale L for EB-SNMF fit to Y
-  if (ldf_type == 'cov'){
+  if (ldf_type == "cov"){
     fit.L <- fit.L %*% diag(D)
   }
   
@@ -147,7 +149,7 @@ fit_ebmf_to_Y <- function(Y, fit.cov, corr_thres, maxiter, ldf_type = c("i","cov
   ### whose L and Ltilde from covariance decomposition are highly
   ### concordant 
   L.pm <- fit.snmf$L_pm
-  if (ldf_type == 'cov'){
+  if (ldf_type == "cov"){
     L.pm <- t(t(L.pm)/apply(L.pm, 2, max))
   }
   F.lfc <- fit.snmf$F_pm/log(2)

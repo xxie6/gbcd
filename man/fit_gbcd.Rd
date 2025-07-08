@@ -13,7 +13,8 @@ fit_gbcd(
   maxiter2 = 200,
   maxiter3 = 500,
   control = list(),
-  verbose = 1
+  verbose = 1,
+  ldf_type = c("i", "cov")
 )
 
 fit_gbcd_control_default()
@@ -57,6 +58,11 @@ only keep columns \eqn{l_k} whose Pearson correlation with
 
 \item{verbose}{Integer specifying whether and how to display
 progress updates, as described in flashier.}
+
+\item{ldf_type}{The type of diagonal scaling matrix D to use when
+fitting the model \eqn{Y = LDF' + E}. Use \code{ldf_type = "i"}
+to set D to the identity matrix; \code{ldf_type = "cov"} to set
+D such that \eqn{LD^2L'} is approximately \eqn{YY'/p}.}
 }
 \value{
 A list including the following elements:
@@ -65,7 +71,15 @@ A list including the following elements:
 the GEP membership matrix L.}
 
 \item{F}{List containing the posterior summaries of the GEP
-  signature matrix F.}
+  signature matrix F. Note that these posterior estimates are
+  provided on the base-2 logarithmic scale for more straightforward
+  interpretation as \emph{log-fold changes}; to return these estimates
+  to the usual (natural log) scale, you would multiply these by
+  \code{log(2)}. For example, fitted values would be recovered as
+  \code{tcrossprod(L,log(2) * F$lfc)}.}
+  
+\item{D}{A vector containing the diagonal entries of the 
+  diagonal scaling matrix D.}
 }
 \description{
 Fit a generalized binary covariance decomposition (GBCD)
