@@ -75,7 +75,7 @@ fit_ebmf_to_YY <- function (dat, fl, extrapolate = TRUE, warmstart = TRUE,
 #' @importFrom flashier flash_backfit
 #' 
 fit_ebmf_to_Y <- function(Y, fit.cov, corr_thres, maxiter, 
-                          ldf_type = c("i","cov")) {
+                          ldf_type = c("identity","cov")) {
   
   ### scale GEP membership estimates to 0-1 scale, and calculate
   ### Pearson correlations between L and L-tilde
@@ -96,7 +96,7 @@ fit_ebmf_to_Y <- function(Y, fit.cov, corr_thres, maxiter,
     D <- sqrt(ldf(fit.cov, type = "i")$D)
     D <- D[k.order]
     D <- D[keep.idx]
-  } else if (ldf_type == "i"){
+  } else if (ldf_type == "identity"){
     D <- rep(1, ncol(fit.L))
   } else {
     stop("Invalid input for ldf_type")

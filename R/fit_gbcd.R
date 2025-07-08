@@ -84,7 +84,7 @@
 fit_gbcd <- function (Y, Kmax, prior = ebnm::ebnm_generalized_binary, 
                       maxiter1 = 500, maxiter2 = 200, maxiter3 = 500,
                       control = list(), verbose = 1, 
-                      ldf_type = c("i","cov")) {
+                      ldf_type = c("identity","cov")) {
   ldf_type <- match.arg(ldf_type)
   control <- modifyList(fit_gbcd_control_default(), control, 
                         keep.null = TRUE)
