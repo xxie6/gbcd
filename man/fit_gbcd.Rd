@@ -71,7 +71,12 @@ A list including the following elements:
 the GEP membership matrix L.}
 
 \item{F}{List containing the posterior summaries of the GEP
-  signature matrix F.}
+  signature matrix F. Note that these posterior estimates are
+  provided on the base-2 logarithmic scale for more straightforward
+  interpretation as \emph{log-fold changes}; to return these estimates
+  to the usual (natural log) scale, you would multiply these by
+  \code{log(2)}. For example, fitted values would be recovered as
+  \code{tcrossprod(L,log(2) * F$lfc)}.}
   
 \item{D}{A vector containing the diagonal entries of the 
   diagonal scaling matrix D.}
