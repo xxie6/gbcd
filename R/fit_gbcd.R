@@ -56,7 +56,7 @@
 #' @return A list including the following elements:
 #' 
 #' \item{L}{cell x GEP matrix containing the posterior estimates of
-#' the GEP membership matrix L.}
+#'   the GEP membership matrix L.}
 #' 
 #' \item{F}{List containing the posterior summaries of the GEP
 #'   signature matrix F. Note that these posterior estimates are
@@ -96,7 +96,8 @@ fit_gbcd <- function (Y, Kmax, prior = ebnm::ebnm_generalized_binary,
   warmstart <- control$warmstart
   corr_thres <- control$corr_thres
     
-  ### form the covariance matrix from the cell by gene matrix of gene expression data
+  ### form the covariance matrix from the cell by gene matrix of 
+  ### gene expression data
   print("Form cell by cell covariance matrix...")
   start_time = proc.time()
   if (2 * ncol(Y) * mean(Y > 0) < nrow(Y)) {
