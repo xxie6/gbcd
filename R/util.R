@@ -160,5 +160,7 @@ fit_ebmf_to_Y <- function(Y, fit.cov, corr_thres, maxiter,
   colnames(F.z) <- colnames(L.pm)
   colnames(F.lfsr) <- colnames(L.pm)
   names(D) <- colnames(L.pm)
-  return(list(L = L.pm, F = list(lfc = F.lfc, z_score = F.z, lfsr = F.lfsr), D = D))
+  return(list(L = L.pm, 
+              F = list(lfc = F.lfc, z_score = F.z, lfsr = F.lfsr), 
+              D = D))
 }
